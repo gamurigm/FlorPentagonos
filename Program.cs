@@ -16,7 +16,7 @@ namespace Conjunta1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmHexagono());
+            Application.Run(new FrmMargarita());
         }
     }
 }

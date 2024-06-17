@@ -8,3 +8,13 @@ C:\Users\gamur\source\repos\Conjunta1\bin\Debug\Conjunta1.exe
 C:\Users\gamur\source\repos\Conjunta1\bin\Debug\Conjunta1.pdb
 C:\Users\gamur\source\repos\Conjunta1\obj\Debug\Conjunta1.exe
 C:\Users\gamur\source\repos\Conjunta1\obj\Debug\Conjunta1.pdb
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\bin\Debug\Conjunta1.exe.config
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\bin\Debug\Conjunta1.exe
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\bin\Debug\Conjunta1.pdb
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\obj\Debug\Conjunta1.csproj.AssemblyReference.cache
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\obj\Debug\Conjunta1.FrmHexagono.resources
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\obj\Debug\Conjunta1.Properties.Resources.resources
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\obj\Debug\Conjunta1.csproj.GenerateResource.cache
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\obj\Debug\Conjunta1.csproj.CoreCompileInputs.cache
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\obj\Debug\Conjunta1.exe
+C:\Users\gamur\source\repos\ProyectoFlorPentagono\obj\Debug\Conjunta1.pdb

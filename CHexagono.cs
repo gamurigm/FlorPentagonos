@@ -15,7 +15,7 @@ namespace Conjunta1
         {
             private int scaleFactor; 
 
-            public int ScaleFactor
+            public int SF
             {
                 get { return scaleFactor; }
                 set { scaleFactor = value; }
@@ -26,47 +26,27 @@ namespace Conjunta1
                 this.scaleFactor = scaleFactor;
             }
 
-            public void DrawHexagon(Graphics graphics, int sideLength)
+            public void DrawPentagon(Graphics graphics, int sideLength)
             {
-                double apotema = Math.Sqrt(3) / 2 * sideLength * scaleFactor;
+                // Calcular el radio del círculo circunscrito al pentágono
+                double radius = sideLength / (2 * Math.Sin(Math.PI / 5));
 
-                // Calcular el primer vértice del hexágono
-                int x1 = (int)Math.Round(Math.Sqrt(sideLength * sideLength - apotema * apotema)) * scaleFactor;
-                int y1 = 0;  
-                Point firstVertex = new Point(x1, y1);
-
-                // vertices hexagono:
-                Point[] vertices = new Point[6];
-                vertices[0] = firstVertex;
-                for (int i = 1; i < 6; i++)
+                // Coordenadas de los vértices del pentágono
+                Point[] vertices = new Point[5];
+                for (int i = 0; i < 5; i++)
                 {
-                    double angle = Math.PI / 3 * (i - 1);  //Representan las coordenadas X e Y del vértice anterior en el arreglo 
-                    int x = vertices[i - 1].X + (int)(sideLength * Math.Cos(angle)) * scaleFactor;
-                    int y = vertices[i - 1].Y + (int)(sideLength * Math.Sin(angle)) * scaleFactor;
+                    double angle = 2 * Math.PI / 5 * i - Math.PI / 2; // Ángulo girado 90 grados en sentido contrario para la punta hacia arriba
+                    int x = (int)(radius * Math.Cos(angle)) + (int)radius; // Ajustar para centrar el pentágono
+                    int y = (int)(radius * Math.Sin(angle)) + (int)radius; // Ajustar para centrar el pentágono
                     vertices[i] = new Point(x, y);
                 }
 
-                Point center = new Point(
-                    (vertices[0].X + vertices[3].X) / 2,
-                    (vertices[0].Y + vertices[3].Y) / 2
-                );
-
-             
-                Color[] colors = { Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Cyan, Color.Magenta };
-                for (int i = 0; i < 6; i++)
-                {
-                    Point[] triangle = { vertices[i], center, vertices[(i + 1) % 6] };
-                    using (SolidBrush brush = new SolidBrush(colors[i]))
-                    {
-                        graphics.FillPolygon(brush, triangle);
-                    }
-                }
-
-                using (Pen pen = new Pen(Color.Black, 2))
+                using (Pen pen = new Pen(Color.DarkTurquoise, 2))
                 {
                     graphics.DrawPolygon(pen, vertices);
                 }
             }
+
         }
     }
 }
