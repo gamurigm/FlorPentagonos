@@ -109,9 +109,9 @@ namespace Conjunta1
 
                 PointF intersection1 = CalculateLineIntersection(line1, line2);
                 PointF intersection2 = CalculateLineIntersection(line2, line4);
-                //PointF intersection4 = CalculateLineIntersection(line3, line5);
-                //PointF intersection3 = CalculateLineIntersection(line4, line3);
-                //PointF intersection5 = CalculateLineIntersection(line5, line1);
+                PointF intersection4 = CalculateLineIntersection(line3, line5);
+                PointF intersection3 = CalculateLineIntersection(line4, line3);
+                PointF intersection5 = CalculateLineIntersection(line5, line1);
 
 
 
@@ -133,23 +133,40 @@ namespace Conjunta1
                     PointF T = GetPointAtDistance(vertices[3], vertices[2], ladoP, graphics, pen);
                     PointF U = GetPointAtDistance(vertices[4], vertices[3], ladoP, graphics, pen);
                     PointF V = GetPointAtDistance(vertices[0], vertices[4], ladoP, graphics, pen);
+
+                    JoinPoints(M, intersection1, graphics, pen);
+                    JoinPoints(R, intersection1, graphics, pen);
+
+                    JoinPoints(N, intersection5, graphics, pen);
+                    JoinPoints(S, intersection5, graphics, pen);
+
+                    JoinPoints(O, intersection4, graphics, pen);
+                    JoinPoints(T, intersection4, graphics, pen);
+
+                    JoinPoints(P, intersection3, graphics, pen);
+                    JoinPoints(U, intersection3, graphics, pen);
+
+                    JoinPoints(Q, intersection2, graphics, pen);
+                    JoinPoints(V, intersection2, graphics, pen);
+
                 }
 
-               
+           
+
+
 
 
                 // interceptos
-
                 if (intersection1 != PointF.Empty)
                     intersections.Add(intersection1);
                 if (intersection2 != PointF.Empty)
                     intersections.Add(intersection2);
-               /* if (intersection3 != PointF.Empty)
+                if (intersection3 != PointF.Empty)
                     intersections.Add(intersection3);
                 if (intersection4 != PointF.Empty)
                     intersections.Add(intersection4);
                 if (intersection5 != PointF.Empty)
-                    intersections.Add(intersection5);*/
+                    intersections.Add(intersection5);
 
                 return intersections;
             }
