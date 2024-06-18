@@ -8,6 +8,7 @@ namespace Conjunta1
 {
     using System;
     using System.Drawing;
+    using System.Windows.Forms;
 
     namespace Conjunta1
     {
@@ -26,6 +27,23 @@ namespace Conjunta1
                 this.scaleFactor = scaleFactor;
             }
 
+            public struct Line
+            {
+                public Point Start;
+                public Point End;
+
+                public Line(Point start, Point end)
+                {
+                    Start = start;
+                    End = end;
+                }
+            }
+            public double CalculateDistance(Point p1, Point p2)
+            {
+                int dx = p2.X - p1.X;
+                int dy = p2.Y - p1.Y;
+                return Math.Sqrt(dx * dx + dy * dy);
+            }
             public void DrawPentagon(Graphics graphics, int sideLength)
             {
                 // Calcular el radio del círculo
@@ -36,26 +54,33 @@ namespace Conjunta1
                 for (int i = 0; i < 5; i++)
                 {
                     double angle = 2 * Math.PI / 5 * i - Math.PI / 2;
-                    int x = (int)(radius * Math.Cos(angle)) + (int)radius;
-                    int y = (int)(radius * Math.Sin(angle)) + (int)radius;
-                    vertices[i] = new Point(x, y);
+                    double x = radius * Math.Cos(angle) + radius;
+                    double y = radius * Math.Sin(angle) + radius;
+
+                    // Redondear al entero más cercano utilizando Math.Round
+                    vertices[i] = new Point((int)Math.Round(x), (int)Math.Round(y));
                 }
 
-                // Dibujar el pentágono
                 using (Pen pen = new Pen(Color.DarkTurquoise, 2))
                 {
                     graphics.DrawPolygon(pen, vertices);
                 }
 
-                // Dibujar la estrella conectando los vértices del pentágono
                 DrawStar(graphics, vertices);
 
-                // Calcular e imprimir los puntos de intersección
                 List<Point> intersections = CalculateIntersections(vertices);
                 foreach (var intersection in intersections)
                 {
                     graphics.FillEllipse(Brushes.Red, intersection.X - 3, intersection.Y - 3, 6, 6);
                 }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    int nextIndex = (i + 1) % 5;
+                    double side = CalculateDistance(vertices[i], vertices[nextIndex]);
+                    MessageBox.Show($"Longitud del lado {i + 1}: {side}");
+                }
+
             }
 
             public void DrawStar(Graphics graphics, Point[] vertices)
@@ -80,22 +105,33 @@ namespace Conjunta1
                 Line line3 = new Line(vertices[4], vertices[2]); 
                 Line line4 = new Line(vertices[0], vertices[3]); 
                 Line line5 = new Line(vertices[3], vertices[1]);
-
                
                 Point intersection1 = CalculateLineIntersection(line1, line2);
-                Point intersection4 = CalculateLineIntersection(line2, line4);
-                Point intersection2 = CalculateLineIntersection(line3, line5);
-                Point intersection5 = CalculateLineIntersection(line4, line3);
-                Point intersection3 = CalculateLineIntersection(line5, line1);
-                
+                Point intersection2 = CalculateLineIntersection(line2, line4);
+                Point intersection4 = CalculateLineIntersection(line3, line5);
+                Point intersection3 = CalculateLineIntersection(line4, line3);
+                Point intersection5 = CalculateLineIntersection(line5, line1);
 
+        
+
+                double distance12 = CalculateDistance(intersection1, intersection2);
+                double distance23 = CalculateDistance(intersection2, intersection3);
+                double distance34 = CalculateDistance(intersection3, intersection4);
+                double distance45 = CalculateDistance(intersection4, intersection5);
+                double distance51 = CalculateDistance(intersection5, intersection1);
+
+                MessageBox.Show($"Distancia entre intersection1 y intersection2: {distance12}");
+                MessageBox.Show($"Distancia entre intersection2 y intersection3: {distance23}");
+                MessageBox.Show($"Distancia entre intersection3 y intersection4: {distance34}");
+                MessageBox.Show($"Distancia entre intersection4 y intersection5: {distance45}");
+                MessageBox.Show($"Distancia entre intersection5 y intersection1: {distance51}");
 
 
                 // interceptos
 
                 if (intersection1 != Point.Empty)
                     intersections.Add(intersection1);
-               if (intersection2 != Point.Empty)
+                if (intersection2 != Point.Empty)
                     intersections.Add(intersection2);
                 if (intersection3 != Point.Empty)
                     intersections.Add(intersection3);
@@ -119,7 +155,7 @@ namespace Conjunta1
                 double x4 = line2.End.X;
                 double y4 = line2.End.Y;
 
-                // Calcular las pendientes (m) de las líneas
+                // Calcular las pendientes 
                 double m1 = (y2 - y1) / (x2 - x1);
                 double m2 = (y4 - y3) / (x4 - x3);
 
@@ -133,23 +169,14 @@ namespace Conjunta1
                 }
                 else
                 {
-                    // Devolver un punto que indique que no hay intersección
+                    // no hay intersección
                     return Point.Empty;
                 }
             }
 
-            // Estructura Line para representar una línea entre dos puntos
-            public struct Line
-            {
-                public Point Start;
-                public Point End;
 
-                public Line(Point start, Point end)
-                {
-                    Start = start;
-                    End = end;
-                }
-            }
+
+
         }
     }
 }
