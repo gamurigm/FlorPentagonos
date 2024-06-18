@@ -69,7 +69,7 @@ namespace Conjunta1
 
                 DrawStar(graphics, vertices);
 
-                List<PointF> intersections = CalculateIntersections(vertices);
+                List<PointF> intersections = CalculateIntersections(graphics, vertices);
                 foreach (var intersection in intersections)
                 {
                     graphics.FillEllipse(Brushes.Red, intersection.X - 3, intersection.Y - 3, 6, 6);
@@ -81,7 +81,6 @@ namespace Conjunta1
                     float side = CalculateDistance(vertices[i], vertices[nextIndex]);
                     MessageBox.Show($"Longitud del lado {i + 1}: {side}");
                 }
-
 
 
             }
@@ -99,7 +98,7 @@ namespace Conjunta1
                 }
             }
 
-            public List<PointF> CalculateIntersections(PointF[] vertices)
+            public List<PointF> CalculateIntersections(Graphics graphics, PointF[] vertices)
             {
                 List<PointF> intersections = new List<PointF>();
 
@@ -124,11 +123,27 @@ namespace Conjunta1
                 float distance45 = CalculateDistance(intersection4, intersection5);
                 float distance51 = CalculateDistance(intersection5, intersection1);
 
-                MessageBox.Show($"Distancia entre intersection1 y intersection2: {distance12}");
-                MessageBox.Show($"Distancia entre intersection2 y intersection3: {distance23}");
-                MessageBox.Show($"Distancia entre intersection3 y intersection4: {distance34}");
-                MessageBox.Show($"Distancia entre intersection4 y intersection5: {distance45}");
-                MessageBox.Show($"Distancia entre intersection5 y intersection1: {distance51}");
+
+                using (Pen pen = new Pen(Color.Red, 2))
+                {
+                    DrawPointAtDistance(vertices[0], vertices[1], distance12, graphics, pen);
+                    DrawPointAtDistance(vertices[1], vertices[2], distance23, graphics, pen);
+                    DrawPointAtDistance(vertices[2], vertices[3], distance34, graphics, pen);
+                    DrawPointAtDistance(vertices[3], vertices[4], distance45, graphics, pen);
+                    DrawPointAtDistance(vertices[4], vertices[0], distance51, graphics, pen);
+
+                    DrawPointAtDistance(vertices[1], vertices[0], distance12, graphics, pen);
+                    DrawPointAtDistance(vertices[2], vertices[1], distance23, graphics, pen);
+                    DrawPointAtDistance(vertices[3], vertices[2], distance34, graphics, pen);
+                    DrawPointAtDistance(vertices[4], vertices[3], distance45, graphics, pen);
+                    DrawPointAtDistance(vertices[0], vertices[4], distance51, graphics, pen);
+                }
+
+                //MessageBox.Show($"Distancia entre intersection1 y intersection2: {distance12}");
+                //MessageBox.Show($"Distancia entre intersection2 y intersection3: {distance23}");
+                //MessageBox.Show($"Distancia entre intersection3 y intersection4: {distance34}");
+                //MessageBox.Show($"Distancia entre intersection4 y intersection5: {distance45}");
+                //MessageBox.Show($"Distancia entre intersection5 y intersection1: {distance51}");
 
 
                 // interceptos
@@ -173,11 +188,25 @@ namespace Conjunta1
                 }
                 else
                 {
-                    // no hay intersección
                     return PointF.Empty;
                 }
             }
 
+         
+            public void DrawPointAtDistance(PointF vertex1, PointF vertex2, float distanceL, Graphics graphics, Pen pen)
+            {
+                float dx = vertex2.X - vertex1.X;
+                float dy = vertex2.Y - vertex1.Y;
+
+                float length = (float)Math.Sqrt(dx * dx + dy * dy);
+                dx /= length;
+                dy /= length;
+
+                PointF point = new PointF(vertex1.X + distanceL * dx, vertex1.Y + distanceL * dy);
+
+                graphics.DrawEllipse(pen, point.X - 2, point.Y - 2, 4, 4);
         }
+
+    }
     }
 }
