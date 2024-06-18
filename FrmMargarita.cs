@@ -13,7 +13,7 @@ namespace Conjunta1
 {
     public partial class FrmMargarita : Form
     {
-        private CHexagono hexagono; 
+        private CPentagono hexagono; 
         private int SF = 1; 
 
         public FrmMargarita()
@@ -21,7 +21,7 @@ namespace Conjunta1
             InitializeComponent();
             picCanvas.Paint += new PaintEventHandler(this.PicCanvas_Paint);
             btnCalcular.Click += new EventHandler(this.btnCalcular_Click);
-            hexagono = new CHexagono(SF);
+            hexagono = new CPentagono(SF);
         }
         private void FrmHexagono_Load(object sender, EventArgs e) { }
         private void PicCanvas_Paint(object sender, PaintEventArgs e)
