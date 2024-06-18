@@ -46,10 +46,10 @@ namespace Conjunta1
             }
             public void DrawPentagon(Graphics graphics, int sideLength)
             {
-                // Calcular el radio del círculo
+                // radio del círculo circunscrito
                 float radius = (float)(sideLength / (2 * Math.Sin(Math.PI / 5)));
 
-                // Coordenadas de los vértices del pentágono
+             
                 PointF[] vertices = new PointF[5];
                 for (int i = 0; i < 5; i++)
                 {
@@ -75,14 +75,12 @@ namespace Conjunta1
                     graphics.FillEllipse(Brushes.Red, intersection.X - 3, intersection.Y - 3, 6, 6);
                 }
 
-                for (int i = 0; i < 5; i++)
+               /* for (int i = 0; i < 5; i++)
                 {
                     int nextIndex = (i + 1) % 5;
                     float side = CalculateDistance(vertices[i], vertices[nextIndex]);
                     MessageBox.Show($"Longitud del lado {i + 1}: {side}");
-                }
-
-
+                }   */
             }
 
             public void DrawStar(Graphics graphics, PointF[] vertices)
@@ -111,39 +109,33 @@ namespace Conjunta1
 
                 PointF intersection1 = CalculateLineIntersection(line1, line2);
                 PointF intersection2 = CalculateLineIntersection(line2, line4);
-                PointF intersection4 = CalculateLineIntersection(line3, line5);
-                PointF intersection3 = CalculateLineIntersection(line4, line3);
-                PointF intersection5 = CalculateLineIntersection(line5, line1);
+                //PointF intersection4 = CalculateLineIntersection(line3, line5);
+                //PointF intersection3 = CalculateLineIntersection(line4, line3);
+                //PointF intersection5 = CalculateLineIntersection(line5, line1);
 
 
 
                 float distance12 = CalculateDistance(intersection1, intersection2);
-                float distance23 = CalculateDistance(intersection2, intersection3);
-                float distance34 = CalculateDistance(intersection3, intersection4);
-                float distance45 = CalculateDistance(intersection4, intersection5);
-                float distance51 = CalculateDistance(intersection5, intersection1);
+                float ladoP = distance12;
+               
 
 
                 using (Pen pen = new Pen(Color.Red, 2))
                 {
-                    DrawPointAtDistance(vertices[0], vertices[1], distance12, graphics, pen);
-                    DrawPointAtDistance(vertices[1], vertices[2], distance23, graphics, pen);
-                    DrawPointAtDistance(vertices[2], vertices[3], distance34, graphics, pen);
-                    DrawPointAtDistance(vertices[3], vertices[4], distance45, graphics, pen);
-                    DrawPointAtDistance(vertices[4], vertices[0], distance51, graphics, pen);
+                    PointF M=  GetPointAtDistance(vertices[0], vertices[1], ladoP, graphics, pen);
+                    PointF N = GetPointAtDistance(vertices[1], vertices[2], ladoP, graphics, pen);
+                    PointF O = GetPointAtDistance(vertices[2], vertices[3], ladoP, graphics, pen);
+                    PointF P = GetPointAtDistance(vertices[3], vertices[4], ladoP, graphics, pen);
+                    PointF Q = GetPointAtDistance(vertices[4], vertices[0], ladoP, graphics, pen);
 
-                    DrawPointAtDistance(vertices[1], vertices[0], distance12, graphics, pen);
-                    DrawPointAtDistance(vertices[2], vertices[1], distance23, graphics, pen);
-                    DrawPointAtDistance(vertices[3], vertices[2], distance34, graphics, pen);
-                    DrawPointAtDistance(vertices[4], vertices[3], distance45, graphics, pen);
-                    DrawPointAtDistance(vertices[0], vertices[4], distance51, graphics, pen);
+                    PointF R = GetPointAtDistance(vertices[1], vertices[0], ladoP, graphics, pen);
+                    PointF S = GetPointAtDistance(vertices[2], vertices[1], ladoP, graphics, pen);
+                    PointF T = GetPointAtDistance(vertices[3], vertices[2], ladoP, graphics, pen);
+                    PointF U = GetPointAtDistance(vertices[4], vertices[3], ladoP, graphics, pen);
+                    PointF V = GetPointAtDistance(vertices[0], vertices[4], ladoP, graphics, pen);
                 }
 
-                //MessageBox.Show($"Distancia entre intersection1 y intersection2: {distance12}");
-                //MessageBox.Show($"Distancia entre intersection2 y intersection3: {distance23}");
-                //MessageBox.Show($"Distancia entre intersection3 y intersection4: {distance34}");
-                //MessageBox.Show($"Distancia entre intersection4 y intersection5: {distance45}");
-                //MessageBox.Show($"Distancia entre intersection5 y intersection1: {distance51}");
+               
 
 
                 // interceptos
@@ -152,12 +144,12 @@ namespace Conjunta1
                     intersections.Add(intersection1);
                 if (intersection2 != PointF.Empty)
                     intersections.Add(intersection2);
-                if (intersection3 != PointF.Empty)
+               /* if (intersection3 != PointF.Empty)
                     intersections.Add(intersection3);
                 if (intersection4 != PointF.Empty)
                     intersections.Add(intersection4);
                 if (intersection5 != PointF.Empty)
-                    intersections.Add(intersection5);
+                    intersections.Add(intersection5);*/
 
                 return intersections;
             }
@@ -192,8 +184,8 @@ namespace Conjunta1
                 }
             }
 
-         
-            public void DrawPointAtDistance(PointF vertex1, PointF vertex2, float distanceL, Graphics graphics, Pen pen)
+
+            public PointF GetPointAtDistance(PointF vertex1, PointF vertex2, float distanceL, Graphics graphics, Pen pen)
             {
                 float dx = vertex2.X - vertex1.X;
                 float dy = vertex2.Y - vertex1.Y;
@@ -205,8 +197,14 @@ namespace Conjunta1
                 PointF point = new PointF(vertex1.X + distanceL * dx, vertex1.Y + distanceL * dy);
 
                 graphics.DrawEllipse(pen, point.X - 2, point.Y - 2, 4, 4);
-        }
 
-    }
+                return point;
+            }
+
+            public void JoinPoints(PointF point1, PointF point2, Graphics graphics, Pen pen)
+            {
+                graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
+            }
+        }
     }
 }

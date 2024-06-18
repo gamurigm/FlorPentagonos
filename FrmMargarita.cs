@@ -42,9 +42,14 @@ namespace Conjunta1
                 MessageBox.Show("Ha ocurrido un error al dibujar el pentágono.");
             }
         }
-        private void btnCalcular_Click(object sender, EventArgs e) {picCanvas.Invalidate();}
+
+        private void btnCalcular_Click(object sender, EventArgs e)
+        {
+            picCanvas.Invalidate(); 
+        }
         private void groupBox3_Enter(object sender, EventArgs e) {}
-        private void btnSalir_Click(object sender, EventArgs e) {Application.Exit();}
+        private void btnSalir_Click(object sender, EventArgs e) { Application.Exit();
+        }
         private void btnResetear_Click(object sender, EventArgs e)
         {
             txtLado.Clear();
