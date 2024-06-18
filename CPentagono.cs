@@ -75,13 +75,11 @@ namespace Conjunta1
                     graphics.FillEllipse(Brushes.Red, intersection.X - 3, intersection.Y - 3, 6, 6);
                 }
 
-               /* for (int i = 0; i < 5; i++)
-                {
-                    int nextIndex = (i + 1) % 5;
-                    float side = CalculateDistance(vertices[i], vertices[nextIndex]);
-                    MessageBox.Show($"Longitud del lado {i + 1}: {side}");
-                }   */
+
+
             }
+
+
 
             public void DrawStar(Graphics graphics, PointF[] vertices)
             {
@@ -107,17 +105,14 @@ namespace Conjunta1
                 Line line4 = new Line(vertices[0], vertices[3]);
                 Line line5 = new Line(vertices[3], vertices[1]);
 
-                PointF intersection1 = CalculateLineIntersection(line1, line2);
+                PointF intersection1 = CalculateLineIntersection(line1, line2); // Sent. Antihorario
                 PointF intersection2 = CalculateLineIntersection(line2, line4);
                 PointF intersection4 = CalculateLineIntersection(line3, line5);
                 PointF intersection3 = CalculateLineIntersection(line4, line3);
                 PointF intersection5 = CalculateLineIntersection(line5, line1);
 
 
-
-                float distance12 = CalculateDistance(intersection1, intersection2);
-                float ladoP = distance12;
-               
+                float ladoP = CalculateDistance(intersection1, intersection2);
 
 
                 using (Pen pen = new Pen(Color.Red, 2))
@@ -149,11 +144,16 @@ namespace Conjunta1
                     JoinPoints(Q, intersection2, graphics, pen);
                     JoinPoints(V, intersection2, graphics, pen);
 
+
+
+                    ColorPentagons(graphics, vertices[0], M, intersection1, intersection2, V);
+                    ColorPentagons(graphics, Q, intersection2, intersection3, U, vertices[4]);
+                    ColorPentagons(graphics, intersection3, P, vertices[3], T, intersection4);
+                    ColorPentagons(graphics, intersection4, O, vertices[2], S, intersection5);
+                    ColorPentagons(graphics,intersection1, R, vertices[1], N, intersection5);
+
+
                 }
-
-           
-
-
 
 
                 // interceptos
@@ -171,6 +171,9 @@ namespace Conjunta1
                 return intersections;
             }
 
+
+
+            
             private PointF CalculateLineIntersection(Line line1, Line line2)
             {
                 float x1 = line1.Start.X;
@@ -199,8 +202,8 @@ namespace Conjunta1
                 {
                     return PointF.Empty;
                 }
-            }
 
+            }
 
             public PointF GetPointAtDistance(PointF vertex1, PointF vertex2, float distanceL, Graphics graphics, Pen pen)
             {
@@ -222,6 +225,23 @@ namespace Conjunta1
             {
                 graphics.DrawLine(pen, point1.X, point1.Y, point2.X, point2.Y);
             }
+
+            private void ColorPentagons(Graphics graphics, PointF p1, PointF p2, PointF p3, PointF p4, PointF p5)
+            {
+                PointF[] pentagon = new PointF[] { p1, p2, p3, p4, p5 };
+                ColorPentagon(graphics, pentagon, Color.Red);
+            }
+
+            private void ColorPentagon(Graphics graphics, PointF[] pentagon, Color color)
+            {
+                using (Brush brush = new SolidBrush(color))
+                {
+                    graphics.FillPolygon(brush, pentagon);
+                }
+            }
+
+
+
         }
     }
 }
